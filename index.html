@@ -7,47 +7,107 @@
   <style>
     :root {
       --primary: #2563eb;
+      --primary-dark: #1d4ed8;
       --secondary: #64748b;
-      --bg: #f8fafc;
+      --bg: #f1f5f9;
       --card-bg: #ffffff;
-      --text: #1e293b;
+      --text: #0f172a;
+      --text-light: #475569;
     }
     
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: var(--bg);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: var(--text);
       line-height: 1.6;
+      min-height: 100vh;
     }
+    
+    .navbar {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .navbar-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .navbar-brand {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary);
+      text-decoration: none;
+    }
+    
+    .navbar-nav {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    
+    .navbar-nav a {
+      color: var(--secondary);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    
+    .navbar-nav a:hover { color: var(--primary); }
     
     .container {
-      max-width: 1200px;
+      max-width: 1400px;
       margin: 0 auto;
-      padding: 2rem;
+      padding: 3rem 2rem;
     }
     
-    header {
-      background: linear-gradient(135deg, var(--primary), #7c3aed);
-      color: white;
-      padding: 4rem 2rem;
+    .hero {
       text-align: center;
+      color: white;
       margin-bottom: 3rem;
     }
     
-    header h1 {
+    .hero h1 {
       font-size: 3rem;
       margin-bottom: 1rem;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.2);
     }
     
-    header p {
+    .hero p {
       font-size: 1.25rem;
-      opacity: 0.9;
+      opacity: 0.95;
+    }
+    
+    .progress {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 2rem;
+      margin-bottom: 3rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .progress-bar {
+      height: 12px;
+      background: #e2e8f0;
+      border-radius: 6px;
+      overflow: hidden;
+      margin: 1rem 0;
+    }
+    
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), #7c3aed);
+      width: 100%;
+      transition: width 0.3s;
     }
     
     .grid {
@@ -59,15 +119,17 @@
     
     .card {
       background: var(--card-bg);
-      border-radius: 12px;
+      border-radius: 16px;
       padding: 2rem;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-      transition: transform 0.2s;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: all 0.3s;
+      border: 2px solid transparent;
     }
     
     .card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 12px rgba(0,0,0,0.15);
+      transform: translateY(-8px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+      border-color: var(--primary);
     }
     
     .card h3 {
@@ -90,6 +152,13 @@
       padding: 0.25rem 0.75rem;
       border-radius: 9999px;
       font-size: 0.75rem;
+      font-weight: 600;
+    }
+    
+    .card p {
+      color: var(--text-light);
+      font-size: 0.95rem;
+      line-height: 1.7;
     }
     
     .card a {
@@ -98,81 +167,76 @@
       color: var(--primary);
       text-decoration: none;
       font-weight: 600;
+      transition: gap 0.2s;
     }
     
-    .card a:hover {
+    .card a:hover { text-decoration: underline; }
+    
+    footer {
+      background: rgba(0,0,0,0.2);
+      color: white;
+      text-align: center;
+      padding: 2rem;
+      margin-top: 4rem;
+    }
+    
+    footer a {
+      color: white;
       text-decoration: underline;
     }
     
-    .progress {
-      background: var(--card-bg);
-      padding: 2rem;
-      border-radius: 12px;
-      margin-bottom: 3rem;
-    }
-    
-    .progress-bar {
-      height: 8px;
-      background: #e2e8f0;
-      border-radius: 4px;
-      overflow: hidden;
-      margin: 1rem 0;
-    }
-    
-    .progress-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--primary), #7c3aed);
-      width: 65%;
-      transition: width 0.3s;
-    }
-    
-    footer {
-      text-align: center;
-      padding: 2rem;
-      color: var(--secondary);
-      border-top: 1px solid #e2e8f0;
-    }
-    
-    .emoji {
-      font-size: 1.5rem;
-      margin-right: 0.5rem;
+    @media (max-width: 768px) {
+      .navbar-nav { display: none; }
+      .hero h1 { font-size: 2rem; }
+      .grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>🐾 OpenClaw 知识库</h1>
-    <p>从入门到精通 · 傻瓜式教程 · 持续迭代</p>
-  </header>
+  <nav class="navbar">
+    <div class="navbar-content">
+      <a href="index.html" class="navbar-brand">🐾 OpenClaw 知识库</a>
+      <ul class="navbar-nav">
+        <li><a href="index.html">首页</a></li>
+        <li><a href="docs.html">文档中心</a></li>
+        <li><a href="skills.html">Skills 示例</a></li>
+        <li><a href="mindmaps.html">知识脑图</a></li>
+        <li><a href="videos.html">视频资源</a></li>
+      </ul>
+    </div>
+  </nav>
   
   <div class="container">
-    <!-- 进度卡片 -->
+    <div class="hero">
+      <h1>🐾 OpenClaw 知识库</h1>
+      <p>从入门到精通 · 傻瓜式教程 · 持续迭代</p>
+    </div>
+    
     <div class="progress">
       <h2>📊 建设进度</h2>
       <div class="progress-bar">
-        <div class="progress-fill" style="width: 92%;"></div>
+        <div class="progress-fill"></div>
       </div>
-      <p>整体完成度：92% (18/20 任务完成)</p>
+      <p><strong>整体完成度：100%</strong> (20/20 任务完成)</p>
       <p style="margin-top: 0.5rem; color: var(--secondary);">
-        最后更新：2026-03-08 14:10 | 下次汇报：10 分钟后
+        🎉 项目已完成！最后更新：2026-03-08 14:20
       </p>
     </div>
     
-    <!-- 核心文档 -->
-    <h2 style="margin-bottom: 1.5rem;">📚 核心文档</h2>
+    <h2 style="margin-bottom: 1.5rem; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">📚 核心文档</h2>
     <div class="grid">
       <div class="card">
-        <h3><span class="emoji">📦</span>安装指南</h3>
+        <h3>📦 安装指南</h3>
         <div class="meta">
           <span class="tag">难度 ⭐</span>
           <span>15 分钟</span>
         </div>
         <p>零基础安装教程，15 分钟快速部署 OpenClaw 环境</p>
-        <a href="docs.html">浏览所有文档 →</a>
+        <a href="docs/01-安装指南.md">阅读全文 →</a>
       </div>
       
       <div class="card">
-        <h3><span class="emoji">🚀</span>快速开始</h3>
+        <h3>🚀 快速开始</h3>
         <div class="meta">
           <span class="tag">难度 ⭐</span>
           <span>30 分钟</span>
@@ -182,7 +246,7 @@
       </div>
       
       <div class="card">
-        <h3><span class="emoji">⚙️</span>配置详解</h3>
+        <h3>⚙️ 配置详解</h3>
         <div class="meta">
           <span class="tag">难度 ⭐⭐</span>
           <span>1 小时</span>
@@ -192,7 +256,7 @@
       </div>
       
       <div class="card">
-        <h3><span class="emoji">💬</span>提示词工程</h3>
+        <h3>💬 提示词工程</h3>
         <div class="meta">
           <span class="tag">难度 ⭐⭐</span>
           <span>1 小时</span>
@@ -202,7 +266,7 @@
       </div>
       
       <div class="card">
-        <h3><span class="emoji">🛠️</span>Skills 开发</h3>
+        <h3>🛠️ Skills 开发</h3>
         <div class="meta">
           <span class="tag">难度 ⭐⭐⭐</span>
           <span>2 小时</span>
@@ -212,7 +276,7 @@
       </div>
       
       <div class="card">
-        <h3><span class="emoji">⏰</span>定时任务</h3>
+        <h3>⏰ 定时任务</h3>
         <div class="meta">
           <span class="tag">难度 ⭐⭐</span>
           <span>45 分钟</span>
@@ -222,7 +286,7 @@
       </div>
       
       <div class="card">
-        <h3><span class="emoji">💰</span>Token 优化</h3>
+        <h3>💰 Token 优化</h3>
         <div class="meta">
           <span class="tag">难度 ⭐⭐⭐</span>
           <span>1 小时</span>
@@ -232,7 +296,7 @@
       </div>
       
       <div class="card">
-        <h3><span class="emoji">🏆</span>最佳实践</h3>
+        <h3>🏆 最佳实践</h3>
         <div class="meta">
           <span class="tag">难度 ⭐⭐</span>
           <span>1 小时</span>
@@ -242,45 +306,24 @@
       </div>
     </div>
     
-    <!-- 示例代码 -->
-    <h2 style="margin-bottom: 1.5rem;">💻 示例代码</h2>
+    <h2 style="margin-bottom: 1.5rem; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">💻 示例代码 & 其他资源</h2>
     <div class="grid">
       <div class="card">
-        <h3><span class="emoji">📜</span>每日一句 Skill</h3>
-        <p>入门级示例，展示 Skills 基本结构和开发流程</p>
-        <a href="skills-examples/quote-of-day/">查看代码 →</a>
+        <h3>💻 Skills 示例</h3>
+        <p>4 个完整 Skills 示例代码（quote-of-day、todo-list、file-processor、web-scraper）</p>
+        <a href="skills.html">浏览 Skills →</a>
       </div>
       
       <div class="card">
-        <h3><span class="emoji">✅</span>待办事项 Skill</h3>
-        <p>待办事项管理，支持添加、删除、列出任务</p>
-        <a href="skills-examples/todo-list/">查看代码 →</a>
+        <h3>🧠 知识脑图</h3>
+        <p>3 个知识脑图（核心概念、Skills 开发、使用场景）</p>
+        <a href="mindmaps.html">查看脑图 →</a>
       </div>
       
       <div class="card">
-        <h3><span class="emoji">📁</span>文件处理 Skill</h3>
-        <p>文件读写、格式转换、批量处理示例</p>
-        <a href="skills-examples/file-processor/">查看代码 →</a>
-      </div>
-    </div>
-    
-    <!-- 脑图 -->
-    <h2 style="margin-bottom: 1.5rem;">🧠 知识脑图</h2>
-    <div class="grid">
-      <div class="card">
-        <h3><span class="emoji">🗺️</span>核心概念脑图</h3>
-        <p>OpenClaw 知识体系总览，快速建立整体认知</p>
-        <a href="mindmaps/核心概念脑图.md">查看脑图 →</a>
-      </div>
-    </div>
-    
-    <!-- 视频资源 -->
-    <h2 style="margin-bottom: 1.5rem;">📺 视频资源</h2>
-    <div class="grid">
-      <div class="card">
-        <h3><span class="emoji">🎬</span>视频教程索引</h3>
+        <h3>📺 视频资源</h3>
         <p>精选 B 站/头条高质量教程，要点总结 + 笔记</p>
-        <a href="videos/视频资源索引.md">查看索引 →</a>
+        <a href="videos.html">浏览视频 →</a>
       </div>
     </div>
   </div>
@@ -288,9 +331,9 @@
   <footer>
     <p>🐾 OpenClaw 知识库 | MIT License</p>
     <p style="margin-top: 0.5rem;">
-      <a href="https://github.com/openclaw/openclaw" style="color: var(--primary);">GitHub</a> · 
-      <a href="https://docs.openclaw.ai" style="color: var(--primary);">官方文档</a> · 
-      <a href="https://discord.com/invite/clawd" style="color: var(--primary);">Discord 社区</a>
+      <a href="https://github.com/cchen1-08/openclaw-kb">GitHub</a> · 
+      <a href="https://docs.openclaw.ai">官方文档</a> · 
+      <a href="https://discord.com/invite/clawd">Discord 社区</a>
     </p>
   </footer>
 </body>
